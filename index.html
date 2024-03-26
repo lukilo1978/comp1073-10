@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Object Prototypes | COMP1073 Client-Side JavaScript</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link href="css/normalize.css" rel="stylesheet" />
+	<link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+	<!-- STEP 1: Build out a HEADER and a SECTION element -->
+	<header>
+
+	</header>
+	<section>
+
+	</section>
+
+	<script>
+		/* STEP 2: Bind the HEADER and the SECTION elements above to variables */
+		var header = document.querySelector('header');
+		var section = document.querySelector('section');
+		/* STEP 3: Store the URL of a JSON file in a variable */
+		var url = 'https://smccrindle.github.io/comp1073-10/js/i-scream.json';
+		/* STEP 4: Create a new XHR object */
+		var request = new XMLHttpRequest();
+		/* STEP 5: Open a new request using the request() method */
+		request.open('GET', url );
+		/* STEP 6: Set JavaScript to accept JSON from the server */
+		request.responseType='json';
+		/* STEP 7: Send the request with the send() method */
+		request.send();
+		/* STEP 8: Add an event handler that listens for the onload event of the JSON file/object */
+		request.onload=function(){
+			var iScreamInc=request.response;
+			console.log(iScreamInc);
+			populateHeader(iScreamInc);
+			showTopFlavors(iScreamInc);
+		}
+		/* STEP 9: Build out the populateHeader() function */
+		function populateHeader (jsonObj){
+			var header1 = document.createElement('h1');
+			header1.textContent = jsonObj['companyName'];
+			header.appendChild(header1);
+			var headerpara=document.createElement('p');
+			headerpara.textContent = "Head Office " + jsonObj['headOffice'] + ", Established in  " + jsonObj['established'];
+			header.appendChild(headerpara);
+
+		}
+		/* STEP 10a: Assemble the showTopFlavors() function */
+		function showTopFlavors(jsonObj){
+			// STEP 10b: Bind the JSON topFlavors object to a var
+			var topFlavors = jsonObj['topFlavors'];
+			// STEP 10c: Loop through the topFlavors object
+			for(var i=0; i < topFlavors.length; i++){
+				// STEP 10d: build HTML elements for the content
+				var article = document.createElement('article');
+				var name = document.createElement('h2');
+				var image = document.createElement('img');
+				var type = document.createElement('p');
+				var calories = document.createElement('p');
+				var ingredients = document.createElement('ul');
+				// STEP 10e: Set the textContent property for each of the above elements (except the UL), based on the JSON content
+				name.textContent= topFlavors[i].name;
+				image.setAttribute('src','./images/' + topFlavors[i].image);
+				image.setAttribute('atl', topFlavors[i].name)
+				type.textContent='Type: ' + topFlavors[i].type;
+				calories.textContent='Calories: '+ topFlavors[i].calories;
+				var ingredientsAccessed = topFlavors[i].ingredients;
+				// STEP 10f: Build a loop for the ingredients array in the JSON
+				for(var j =0; j < ingredientsAccessed.length; j++){
+					var li = document.createElement('li');
+					li.textContent = ingredientsAccessed[j];
+					ingredients.appendChild(li);
+
+				}
+				// STEP 10g: Append each of the above HTML elements to the ARTICLE element
+				article.appendChild(name);
+				article.appendChild(image);
+				article.appendChild(type);
+				article.appendChild(calories);
+				article.appendChild(ingredients);
+				// STEP 10h: Append each complete ARTICLE element to the SECTION element
+				section.appendChild(article);
+
+			}
+		}
+				// STEP 10h: Append each complete ARTICLE element to the SECTION element
+
+
+		// This page inspired by and adapted from https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON
+
+		// A special thanks to https://openclipart.org/detail/285225/ice-cream-cones for the awesome ice cream cone illustrations
+		</script>
+	</body>
+</html>
